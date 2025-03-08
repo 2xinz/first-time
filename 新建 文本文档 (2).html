@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>今日星期几测试</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #1a73e8;
+            margin-bottom: 30px;
+        }
+
+        .options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #optionA {
+            background-color: #ff4444;
+            color: white;
+        }
+
+        #optionB {
+            background-color: #00c851;
+            color: white;
+        }
+
+        .result {
+            font-size: 24px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        /* 正确动画 */
+        .correct-animation {
+            animation: correctEffect 1s ease-out;
+        }
+
+        @keyframes correctEffect {
+            0% {
+                transform: scale(1);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* 日期展示 */
+        .date-info {
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>今天星期几？</h1>
+        <div class="options">
+            <button id="optionA" onclick="checkAnswer('A')">A) 星期一</button>
+            <button id="optionB" onclick="checkAnswer('B')">B) 星期六</button>
+        </div>
+        <div id="result" class="result"></div>
+        <div class="date-info" id="dateDisplay"></div>
+    </div>
+
+    <script>
+        // 初始化显示实际日期
+        function updateDateInfo() {
+            const date = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('dateDisplay').textContent = 
+                `当前实际日期：${date.toLocaleDateString('zh-CN', options)}`;
+        }
+
+        // 答案验证
+        function checkAnswer(selected) {
+            const resultDiv = document.getElementById('result');
+            
+            if (selected === 'B') {
+                resultDiv.textContent = "🎉 选择正确！";
+                resultDiv.style.color = "#00c851";
+                resultDiv.classList.add('correct-animation');
+                
+                // 重置动画
+                setTimeout(() => {
+                    resultDiv.classList.remove('correct-animation');
+                }, 1000);
+            } else {
+                resultDiv.textContent = "❌ 再仔细想想~";
+                resultDiv.style.color = "#ff4444";
+                resultDiv.classList.remove('correct-animation');
+            }
+            
+            resultDiv.style.opacity = "1";
+        }
+
+        // 页面加载时显示日期
+        window.unload = updateDateInfo;
+    </script>
+</body>
+</html>
